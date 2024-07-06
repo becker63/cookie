@@ -6,7 +6,7 @@ Eventually we will move this code to a XDP based router like this: https://githu
 
 We can use the AF_XDP socktype to send packets from the kernel level to a user level program that would be doing all the same things this current program is doing.
 
-For now All I plan on doing with the parsed packets is using IPC service https://zeromq.org/languages/c/ to send the packets to a web app to display them.
+For now I just want to use IPC service https://zeromq.org/languages/c/ to send the packets to a web app to display them.
 
 ## Problems
 
