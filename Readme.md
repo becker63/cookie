@@ -1,8 +1,22 @@
-For now the only thing implemented is a reconstruction of captured tcp packets for c.
+## Current state
+
+The only thing implemented is a reconstruction of captured tcp packets for c.
 
 Eventually we will move this code to a XDP based router like this: https://github.com/Nat-Lab/xdp-router. 
 
 We can use the AF_XDP socktype to send packets from the kernel level to a user level program that would be doing all the same things this current program is doing.
+
+For now All I plan on doing with the parsed packets is using IPC service https://zeromq.org/languages/c/ to send the packets to a web app to display them.
+
+## Problems
+
+I am bottlenecked by two things.
+1. I Need an internal representation of the predicted next seq number in order to perfectly allocate memory for these packets.
+   * This requires an implementation of the tcp state machine
+   * there are good examples in the source of wireshark and this cli app: https://github.com/simsong/tcpflow
+3. Im trying to determine whether or not to use a thread map or a allocate a thread for every stream
+   * I need to benchmark which is better
+   * This is not a priority
 ```txt
 Pseudocode 
 t = allocatetcppacket(tcp);
