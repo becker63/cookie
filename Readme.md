@@ -2,9 +2,9 @@
 
 The only thing implemented is a reconstruction of captured tcp packets for c.
 
-Eventually we will move this code to a XDP based router like this: https://github.com/Nat-Lab/xdp-router. 
+Eventually I will move this code to a XDP based router like this: https://github.com/Nat-Lab/xdp-router. 
 
-We can use the AF_XDP socktype to send packets from the kernel level to a user level program that would be doing all the same things this current program is doing.
+I can use the AF_XDP socktype to send packets from the kernel level to a user level program that would be doing all the same things this current program is doing.
 
 For now I just want to use IPC service https://zeromq.org/languages/c/ to send the packets to a web app to display them.
 
