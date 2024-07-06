@@ -1,3 +1,3 @@
-/home/becker/CookieJar/build/CMakeFiles/CookieJar.dir
-/home/becker/CookieJar/build/CMakeFiles/edit_cache.dir
-/home/becker/CookieJar/build/CMakeFiles/rebuild_cache.dir
+/home/becker/mac/c/cookie/build/CMakeFiles/CookieJar.dir
+/home/becker/mac/c/cookie/build/CMakeFiles/edit_cache.dir
+/home/becker/mac/c/cookie/build/CMakeFiles/rebuild_cache.dir

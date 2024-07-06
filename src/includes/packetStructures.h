@@ -72,8 +72,4 @@ struct tcp_header {
 #define MAX_TCP_STREAMS 100
 #define MAX_TCP_STREAM_PKTS 100
 
-struct tcp_streams {
-        uint16_t port_id;
-        struct tcp_header **stream;
-        int cur_index;
-};
+extern int tcp_streams_index;

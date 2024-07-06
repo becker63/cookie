@@ -1,8 +1,6 @@
 #include <pcap.h>
 #include <stdlib.h>
 #include "includes/pcapHelpers.h"
-#include "includes/packetStructures.h"
-#include "includes/helpers.h"
 #include <string.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -254,60 +252,9 @@ void print_packet(const struct tcp_header *tcp, const struct ip_header *ip, cons
 	}
 }
 
-bool stream_in_arr(struct tcp_streams **tcp_streams, uint16_t id)
-{
-	if(tcp_streams == NULL){
-		return false;
-	}
-	for (int i; i < MAX_TCP_STREAMS; i++)
-	{
-		if (tcp_streams[i]->port_id == id)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-void print_streams(struct tcp_streams **tcp_streams, uint16_t id){
-
-		for(int i2; i2 < MAX_TCP_STREAM_PKTS; i2++) {
-			printf("src: %d", tcp_streams[id]->stream[i2]->th_sport);
-			printf("dst: %d", tcp_streams[id]->stream[i2]->th_dport);
-		}
-
-}
-
-void construct_seq(
-	const struct tcp_header *tcp,
-	struct tcp_streams **tcp_streams)
-{
-	uint16_t id = tcp->th_sport + tcp->th_dport;
-	struct tcp_streams *tcp_stream;
-	tcp_stream = malloc(sizeof(struct tcp_streams));
-
-	if (stream_in_arr(tcp_streams, id)){
-		printf("stream already exists, adding new packets to stream");
-		tcp_stream = tcp_streams[id];
-	}
-	else {
-		printf("making new stream");
-		tcp_stream->port_id = id;
-		tcp_stream->stream = malloc(sizeof(struct tcp_header *) * MAX_TCP_STREAM_PKTS);
-		tcp_stream->cur_index = 0;
-		// this index is out of range, need to figure out how to turn this into actual hashmap
-		tcp_streams[id] = tcp_stream;
-	}
-
-	tcp_stream->stream[tcp_stream->cur_index] = tcp;
-	tcp_stream->cur_index += 1;
-	
-	print_streams(tcp_streams, id);
-}
-
 void err_handle_packet(
-    uint8_t *tcp_streams, 
-	const struct pcap_pkthdr *header, 
+    thread_mapt ** thread_map,
+	const struct pcap_pkthdr *header,
 	const uint8_t *packet
     )
 {
@@ -325,6 +272,7 @@ void err_handle_packet(
 	int size_payload;
 
 	printf("\nPacket number %d:\n", count);
+
 	count++;
 
 	/* define ethernet header */
@@ -361,7 +309,8 @@ void err_handle_packet(
 
 	// print_packet(tcp, ip, payload, size_payload);
 
-	construct_seq(tcp, (struct tcp_streams**)tcp_streams);
+	thread_mapt *tm = *thread_map;
+	construct_seq(tcp, (struct thread_map *)tm);
 
 	return;
 }

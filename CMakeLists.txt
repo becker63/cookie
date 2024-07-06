@@ -9,9 +9,10 @@ FILE(GLOB Includes CONFIGURE_DEPENDS includes/*.h)
 
 include(CMakeScripts/FindPCAP.cmake)
 
+
+set(CMAKE_BUILD_TYPE Debug)
 add_executable(CookieJar ${Source})
 add_compile_options(-fsanitize=address)
 add_link_options(-fsanitize=address)
 
 target_link_libraries(CookieJar ${PCAP_LIBRARY})
-

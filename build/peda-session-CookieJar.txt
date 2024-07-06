@@ -1,4 +1,0 @@
-break main
-break findDefaultDevice
-break pcap_findalldevs
-

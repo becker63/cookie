@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <pcap.h>
 #include "includes/pcapHelpers.h"
-#include "includes/helpers.h"
-#include "includes/packetStructures.h"
 #include <sys/types.h>
 #include <stdbool.h>
 #include  <signal.h>
@@ -19,7 +17,7 @@ int main(int, char **)
 
 
     /* filter */
-    compileAndSetFilter(handle, "port 3005", maskIp.ip); 
+    compileAndSetFilter(handle, "port 3005", maskIp.ip);
 
     /* Now do work */
 
@@ -27,9 +25,9 @@ int main(int, char **)
     signal(SIGINT, (void (*)(int))cleanUp);
     cleanUp(FAKE_SIGNAL, handle);
 
-    // arr of pointers to tcp streams (to be turned into a circular buffer later)
-    struct tcp_streams **tcp_streams = malloc(sizeof(struct tcp_streams *) * MAX_TCP_STREAMS);
 
-    pcap_loop(handle, -1, (pcap_handler)err_handle_packet, (uint8_t*)tcp_streams);
+    thread_mapt* m = map_new(20);
+
+    pcap_loop(handle, -1, (pcap_handler)err_handle_packet, (u_char*)&m);
     return 0;
 }

@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/lc3.dir/main.c.o -o lc3 
